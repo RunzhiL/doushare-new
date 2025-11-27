@@ -1,0 +1,136 @@
+.item-detail-page {
+  max-width: 1100px;
+  margin: 40px auto;
+  padding: 20px;
+  font-family: "Inter", sans-serif;
+}
+
+.item-detail-card {
+  display: flex;
+  gap: 40px;
+  background: #fff;
+  border-radius: 16px;
+  padding: 30px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+}
+
+.item-detail-left {
+  flex: 1;
+}
+
+.item-detail-right {
+  flex: 1;
+}
+
+.item-image-large {
+  width: 100%;
+  border-radius: 16px;
+  object-fit: cover;
+  height: 420px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+}
+
+.item-title-large {
+  font-size: 30px;
+  font-weight: 800;
+  margin-bottom: 10px;
+}
+
+.price-section {
+  margin: 10px 0;
+}
+
+.item-price {
+  font-size: 20px;
+  font-weight: 700;
+  color: #222;
+}
+
+.item-deposit {
+  font-size: 16px;
+  color: #666;
+}
+
+.item-status-tag {
+  display: inline-block;
+  padding: 8px 18px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: bold;
+  margin: 12px 0 20px;
+}
+
+.item-status-tag.available {
+  background-color: #e6f8ed;
+  color: #1e8a45;
+}
+
+.item-status-tag.unavailable {
+  background-color: #ffe7e7;
+  color: #c62828;
+}
+
+.borrow-btn {
+  width: 100%;
+  padding: 14px 0;
+  background-color: #2563eb;
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-size: 17px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-bottom: 20px;
+  transition: 0.25s;
+}
+
+.borrow-btn:hover {
+  background-color: #1d4ed8;
+}
+
+.section-title {
+  font-size: 22px;
+  font-weight: 700;
+  margin: 25px 0 10px;
+}
+
+.info-block p {
+  font-size: 15px;
+  color: #444;
+  line-height: 1.6;
+}
+
+.reviews-section {
+  margin-top: 40px;
+}
+
+.chat-link {
+  display: inline-block;
+  color: #2563eb;
+  font-weight: 600;
+  margin-bottom: 20px;
+  font-size: 16px;
+}
+
+.review-block {
+  background: #f5f7ff;
+  padding: 16px;
+  margin-top: 15px;
+  border-radius: 12px;
+  border: 1px solid #e1e7ff;
+}
+
+.review-block strong {
+  font-size: 16px;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .item-detail-card {
+    flex-direction: column;
+  }
+
+  .item-image-large {
+    height: 320px;
+  }
+}

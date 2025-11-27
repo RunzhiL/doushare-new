@@ -1,0 +1,102 @@
+/* GENERAL */
+.homepage-container {
+  width: 100%;
+  min-height: calc(100vh - 80px);
+  padding-bottom: 40px;
+  font-family: "Inter", sans-serif;
+
+  background: radial-gradient(circle at top, #e8f1ff 0%, #ffffff 60%);
+}
+
+
+/* HERO */
+.hero-section {
+  width: 100%;
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 80px 20px 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 32px;
+}
+
+.hero-image {
+  width: 450px;
+  object-fit: contain;
+}
+
+.hero-title {
+  font-size: 32px;
+  font-weight: 800;
+  background: linear-gradient(115deg, #1a73e8, #4cc9f0, #80ffdb);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+
+/* SEARCH BAR */
+.search-wrapper {
+  text-align: center;
+  margin: 20px 0 40px;
+}
+
+.search-bar {
+  width: 60%;
+  max-width: 520px;
+  padding: 14px 20px;
+  border-radius: 18px;
+  border: 1px solid rgba(255,255,255,0.25);
+  background: rgba(255, 255, 255, 0.45);
+  backdrop-filter: blur(14px);
+  font-size: 16px;
+  outline: none;
+  color: #1c1c1c;
+  box-shadow: 0 4px 18px rgba(0,0,0,0.07);
+  transition: 0.2s;
+}
+
+.search-bar:focus {
+  background: rgba(255, 255, 255, 0.75);
+  box-shadow: 0 6px 22px rgba(0,0,0,0.1);
+}
+
+
+/* ITEMS GRID */
+.items-grid {
+  max-width: 1300px;
+  margin: 0 auto;
+  padding: 0 20px;
+
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 24px;
+}
+
+/* CARD */
+.glass-card {
+  padding: 18px;
+  border-radius: 18px;
+
+  background: rgba(255, 255, 255, 0.38);
+  backdrop-filter: blur(18px);
+  border: 1px solid rgba(255,255,255,0.4);
+
+  box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+  display: flex;
+  flex-direction: column;
+
+  transition: 0.25s ease;
+}
+
+.glass-card:hover {
+  box-shadow: 0 12px 32px rgba(0,0,0,0.12);
+}
+
+/* CARD CONTENT */
+.item-thumb {
+  width: 100%;
+  height: 180px;
+  border-radius: 14px;
+  object-fit: cover;
+  margin-bo

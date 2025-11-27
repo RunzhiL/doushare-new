@@ -1,0 +1,53 @@
+.profile-page {
+    max-width: 800px;
+  }
+  
+  .profile-page label {
+    font-weight: bold;
+    margin-top: 12px;
+    display: block;
+  }
+  
+  .profile-page p {
+    margin-bottom: 12px;
+  }
+  
+  .profile-page input {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 12px;
+  }
+  
+  .profile-page button {
+    margin-top: 10px;
+    padding: 8px 16px;
+    background-color: #0077cc;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  /* 通知样式 */
+  .notification-card {
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    padding: 12px;
+    margin-top: 12px;
+    background-color: #f9f9f9;
+  }
+  
+  .notification-card.unread {
+    background-color: #eef6ff;
+    border-left: 4px solid #0077cc;
+  }
+  
+  .notification-card h4 {
+    margin-bottom: 6px;
+  }
+  
+  .notification-card .time {
+    font-size: 12px;
+    color: #888;
+  }
+  

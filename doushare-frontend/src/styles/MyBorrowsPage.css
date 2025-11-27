@@ -1,0 +1,90 @@
+.my-borrows-container {
+  /* max-width: 900px; */
+  font-family: "Inter", sans-serif;
+}
+
+
+.my-borrows-title {
+  font-size: 32px;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 30px;
+  color: #1c1c1c;
+}
+
+
+.borrow-card {
+  background: #f4f8ff;
+  border-radius: 14px;
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+  transition: 0.2s;
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+
+.borrow-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.12);
+}
+
+
+.borrow-thumb {
+  width: 100px;
+  height: 100px;
+  border-radius: 10px;
+  object-fit: cover;
+  background: #ddd;
+}
+
+
+.borrow-info {
+  flex: 1;
+}
+
+.borrow-info h3 {
+  font-size: 20px;
+  margin-bottom: 6px;
+  font-weight: 700;
+  color: #1c1c1c;
+}
+
+.borrow-info p {
+  margin: 4px 0;
+  color: #555;
+  font-size: 14px;
+}
+
+
+.borrow-status {
+  font-size: 14px;
+  font-weight: bold;
+  margin-top: 8px;
+}
+
+.status-active {
+  color: #0d6efd;
+}
+
+.status-returned {
+  color: green;
+}
+
+
+.borrow-card button {
+  margin-top: 12px;
+  padding: 10px 20px;
+  background-color: #0d6efd;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: 0.2s;
+}
+
+.borrow-card button:hover {
+  background-color: #0b57d0;
+}

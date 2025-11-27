@@ -1,0 +1,35 @@
+.review-form-container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    background-color: #fafafa;
+  }
+  
+  .review-form-container h2 {
+    margin-bottom: 20px;
+  }
+  
+  .review-form-container label {
+    display: block;
+    margin-top: 10px;
+    margin-bottom: 4px;
+  }
+  
+  .review-form-container select,
+  .review-form-container textarea {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 12px;
+  }
+  
+  .review-form-container button {
+    padding: 10px 20px;
+    background-color: #0077cc;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  

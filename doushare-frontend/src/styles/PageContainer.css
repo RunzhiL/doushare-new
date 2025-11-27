@@ -1,0 +1,39 @@
+/* Standard page container for consistent layout across all pages */
+.page-container {
+ width: 100%;
+  min-height: calc(100vh - 80px);
+  padding-bottom: 40px;
+  font-family: "Inter", sans-serif;
+  background-image:
+    linear-gradient(rgba(26, 115, 232, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(26, 115, 232, 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, #edf5ff 0%, #ffffff 40%);
+  background-size: 48px 48px, 48px 48px, 100% 100%;
+  background-position: center;
+}
+
+.page-container h2 {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #1c1c1c;
+  margin-bottom: 1.5rem;
+}
+
+.page-container h3 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #1c1c1c;
+  margin-top: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+@media (max-width: 768px) {
+  .page-container {
+    padding: 1rem;
+  }
+
+  .page-container h2 {
+    font-size: 1.5rem;
+  }
+}
+
