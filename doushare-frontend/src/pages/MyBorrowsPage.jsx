@@ -7,6 +7,7 @@ const MyBorrowsPage = () => {
   const [borrows, setBorrows] = useState([]);
   const navigate = useNavigate();
 
+  // Load all borrows for current user
   useEffect(() => {
     fetch("http://localhost:3000/api/borrows/my", {
       headers: {
@@ -18,6 +19,32 @@ const MyBorrowsPage = () => {
       .catch((err) => console.error("Failed to load borrows", err));
   }, []);
 
+  // Cancel borrow function
+  const handleCancel = async (borrowId) => {
+    if (!window.confirm("Are you sure you want to cancel this borrow?")) return;
+
+    try {
+      const res = await fetch(`http://localhost:3000/api/borrows/${borrowId}/cancel`, {
+        method: "PUT",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
+
+      if (!res.ok) {
+        alert("Failed to cancel borrow.");
+        return;
+      }
+
+      alert("Borrow cancelled successfully!");
+
+      // Remove cancelled borrow from list
+      setBorrows((prev) => prev.filter((b) => b._id !== borrowId));
+    } catch (err) {
+      console.error("Cancel failed:", err);
+      alert("Error canceling borrow.");
+    }
+  };
 
   return (
     <div className="page-container my-borrows-container">
@@ -39,23 +66,60 @@ const MyBorrowsPage = () => {
               Status: <strong>{borrow.state}</strong>
             </p>
 
-            {/*Payment button (show only when NOT paid) */}
+            {/* Payment + Cancel Buttons (only before payment) */}
             {borrow.state === "Active" &&
               borrow.payment_status !== "completed" && (
-                <button
-                  onClick={() => navigate(`/payment/${borrow._id}`)}
-                  className="pay-button"
-                >
-                  Proceed to Payment
-                </button>
+                <div style={{ marginTop: "10px" }}>
+                  <button
+                    onClick={() => navigate(`/payment/${borrow._id}`)}
+                    className="pay-button"
+                  >
+                    Proceed to Payment
+                  </button>
+
+                  <button
+                    className="cancel-button"
+                    onClick={() => handleCancel(borrow._id)}
+                    style={{
+                      marginLeft: "10px",
+                      backgroundColor: "#cc3333",
+                      color: "white",
+                      padding: "8px 14px",
+                      borderRadius: "6px",
+                      border: "none",
+                      cursor: "pointer",
+                    }}
+                  >
+                    Cancel Borrow
+                  </button>
+                </div>
               )}
 
-            {/*Paid */}
+            {/* Paid Status */}
             {borrow.payment_status === "completed" && (
-              <p style={{ color: "green", fontWeight: "bold" }}>
+              <p style={{ color: "green", fontWeight: "bold", marginTop: "10px" }}>
                 Paid ✔
               </p>
             )}
+
+            {/* Write Review button (only when returned) */}
+            {borrow.state === "Closed" && (
+              <button
+                className="review-button"
+                onClick={() => navigate(`/review/${borrow._id}`)}
+                style={{
+                marginTop: "10px",
+                backgroundColor: "#0077cc",
+                color: "white",
+                padding: "8px 14px",
+                borderRadius: "6px",
+                border: "none",
+                cursor: "pointer",
+              }}
+           >
+             Write a Review
+            </button>
+          )}
           </div>
         ))
       )}

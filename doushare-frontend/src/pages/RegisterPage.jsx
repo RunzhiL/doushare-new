@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../firebase";
 import "../styles/RegisterPage.css"
 
 const RegisterPage = () => {
@@ -12,6 +14,7 @@ const RegisterPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      
       const res = await fetch("http://localhost:3000/api/users/register", {
         method: "POST",
         headers: {

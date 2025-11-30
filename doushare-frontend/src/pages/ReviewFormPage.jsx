@@ -11,27 +11,35 @@ const ReviewFormPage = () => {
   const [comment, setComment] = useState("");
 
   useEffect(() => {
-    fetch(`http://localhost:3000/api/borrows/${borrowId}`)
+    fetch(`http://localhost:3000/api/borrows/${borrowId}`, {
+      headers: { 
+        Authorization: `Bearer ${localStorage.getItem("token")}`
+      }
+    })
       .then((res) => res.json())
       .then((data) => setBorrow(data));
   }, [borrowId]);
 
   const handleSubmit = async () => {
+    const token = localStorage.getItem("token");
     const user = JSON.parse(localStorage.getItem("user"));
-    if (!user || !user._id) {
+
+    if (!token || !user) {
       alert("Please log in first.");
       return;
     }
 
     const res = await fetch("http://localhost:3000/api/reviews", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: { 
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
       body: JSON.stringify({
-        borrowId,
+        borrow_id: borrowId,          // ✔ correct name
+        reviewee_id: borrow.lender_id, // ✔ correct name
         rating,
         comment,
-        reviewerId: user._id,
-        revieweeId: borrow.lenderId,
       }),
     });
 
@@ -39,6 +47,8 @@ const ReviewFormPage = () => {
       alert("Review submitted successfully!");
       navigate("/my-borrows");
     } else {
+      const errText = await res.text();
+      console.error("Submit failed:", errText);
       alert("Submission failed, please try again.");
     }
   };
@@ -47,25 +57,28 @@ const ReviewFormPage = () => {
 
   return (
     <div className="page-container review-form-container">
-      <h2>Review: {borrow.item?.title || "Item"}</h2>
+      <h2>Review: {borrow.item_id?.title || "Item"}</h2>
+
       <label>Rating (1–5) ⭐️:</label>
       <select
         value={rating}
         onChange={(e) => setRating(parseInt(e.target.value))}
       >
-        {[5, 4, 3, 2, 1].map((r) => (
+        {[5,4,3,2,1].map((r) => (
           <option key={r} value={r}>
             {r}
           </option>
         ))}
       </select>
+
       <label>Comment:</label>
       <textarea
         value={comment}
         onChange={(e) => setComment(e.target.value)}
-        placeholder="What was your experience like?"
+        placeholder="Share your experience..."
         rows={4}
       />
+
       <button onClick={handleSubmit}>Submit Review</button>
     </div>
   );

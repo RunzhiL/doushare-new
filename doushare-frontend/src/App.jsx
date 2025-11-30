@@ -1,7 +1,7 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
-import LoginPage from "./pages/LoginPage";
-import RegisterPage from "./pages/RegisterPage";
+import LoginPage from "./pages/LoginPage2";
+import RegisterPage from "./pages/RegisterPage2";
 import HomePage from "./pages/HomePage";
 import ItemDetailPage from "./pages/ItemDetailPage";
 import BorrowRequestPage from "./pages/BorrowRequestPage";
@@ -14,7 +14,7 @@ import AddItemPage from "./pages/AddItemPage";
 import ApproveRequestsPage from "./pages/ApproveRequestsPage";
 import ChatPage from "./pages/ChatPage";
 import PaymentSuccessPage from "./pages/PaymentSuccessPage";
-
+import AdminDashboard from "./pages/AdminDashboard"
 import Layout from "./components/Layout";
 import "./App.css";
 
@@ -41,6 +41,8 @@ function App() {
           <Route path="/approve-requests" element={<ApproveRequestsPage />} />
           <Route path="/chat/:itemId/:ownerId" element={<ChatPage />} />
           <Route path="/payment-success/:borrowId" element={<PaymentSuccessPage />} />
+          <Route path="/review/:borrowId" element={<ReviewFormPage />} />
+          <Route path="/admin" element={<AdminDashboard />} />
         </Route>
 
         {/* More pages can be added here in the future */}

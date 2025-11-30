@@ -48,9 +48,11 @@ const ItemDetailPage = () => {
             {item.status === "available" ? "Available" : "Unavailable"}
           </span>
   
-          <Link to={`/borrow/${item._id}`}>
-            <button className="borrow-btn">Borrow Now</button>
-          </Link>
+          {item.status === "available" && (
+            <Link to={`/borrow/${item._id}`}>
+              <button className="borrow-btn">Borrow Now</button>
+            </Link>
+          )}
   
           <div className="info-block">
             <h3 className="section-title">Description</h3>

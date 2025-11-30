@@ -39,7 +39,6 @@ const PaymentSuccessPage = () => {
         },
         body: JSON.stringify({
           borrow_id: borrowId,
-          amount: amount_total,
           payment_intent_id: payment_intent
         })
       });
