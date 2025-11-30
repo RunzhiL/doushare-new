@@ -34,10 +34,18 @@ const itemSchema = new mongoose.Schema(
     pickup_location: {
       type: String,
     },
+    reviews: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Review"
+      }
+    ],
+    
   },
   {
     timestamps: true,
   }
+  
 );
 
 module.exports = mongoose.model("Item", itemSchema);

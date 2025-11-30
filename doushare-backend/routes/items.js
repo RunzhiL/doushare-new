@@ -37,7 +37,11 @@ router.get("/", async (req, res) => {
 // Get a specific item by ID (public access)
 router.get("/:id", async (req, res) => {
   try {
-    const item = await Item.findById(req.params.id);
+    const item = await Item.findById(req.params.id)
+    .populate({
+      path: "reviews",
+      populate: { path: "reviewer_id", select: "fullName" }
+    });
     if (!item) return res.status(404).json({ error: "Item not found" });
     res.json(item);
   } catch (err) {

@@ -90,11 +90,58 @@ router.put("/:id", auth, async (req, res) => {
       borrow.returned_at = req.body.returned_at;
     }
 
+    if (req.body.state === "Closed") {
+      const Item = require("../models/Item");
+      await Item.findByIdAndUpdate(borrow.item_id, {
+        status: "available",
+      });
+    }
+
     await borrow.save();
     res.json(borrow);
 
   } catch (err) {
     res.status(400).json({ error: err.message });
+  }
+});
+
+// cancel borrow
+router.put("/:id/cancel", auth, async (req, res) => {
+  try {
+    const borrowId = req.params.id;
+
+    const borrow = await Borrow.findById(borrowId);
+    if (!borrow) {
+      return res.status(404).json({ error: "Borrow not found" });
+    }
+
+    // Must be the borrower to cancel
+    if (borrow.borrower_id.toString() !== req.user.id) {
+      return res.status(403).json({ error: "Not authorized" });
+    }
+
+    // Cannot cancel after payment
+    if (borrow.payment_status === "completed") {
+      return res.status(400).json({ error: "You already paid, cannot cancel." });
+    }
+
+    // Delete the borrow record
+    await Borrow.findByIdAndDelete(borrowId);
+
+    // IMPORTANT: restore item to available
+    const Item = require("../models/Item");
+    await Item.findByIdAndUpdate(borrow.item_id, { status: "available" });
+
+    // Also remove request (optional)
+    const Request = require("../models/Request");
+    if (borrow.request_id) {
+      await Request.findByIdAndDelete(borrow.request_id);
+    }
+
+    return res.json({ message: "Borrow cancelled successfully!" });
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ error: "Server error" });
   }
 });
 

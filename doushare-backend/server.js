@@ -22,6 +22,8 @@ app.use("/api/messages", require("./routes/massages"));
 app.use("/api/profiles", require("./routes/profiles"));
 app.use("/api/notifications", require("./routes/notifications"));
 app.use("/api/stripe", require("./routes/stripe"));
+app.use("/api/admin", require("./routes/admins"));
+
 console.log("Stripe route loaded!");
 
 app.get("/", (req, res) => {

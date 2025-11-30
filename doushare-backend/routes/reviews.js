@@ -16,6 +16,21 @@ router.post("/", auth, async (req, res) => {
       comment,
     });
 
+
+    const Borrow = require("../models/Borrow");
+    const Item = require("../models/Item");
+
+    const borrow = await Borrow.findById(borrow_id);
+    if (!borrow) {
+      return res.status(404).json({ error: "Borrow not found" });
+    }
+
+    const itemId = borrow.item_id;
+
+    await Item.findByIdAndUpdate(itemId, {
+      $push: { reviews: review._id },
+    });
+
     res.status(201).json(review);
   } catch (err) {
     res.status(500).json({ error: err.message });

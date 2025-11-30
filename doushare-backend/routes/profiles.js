@@ -7,7 +7,7 @@ const Profile = require("../models/Profile");
 // Get the current user's profile
 router.get("/me", auth, async (req, res) => {
   try {
-    const profile = await Profile.findOne({ user_id: req.user.id });
+    const profile = await Profile.findOne({ user_id: req.user.uid });
 
     if (!profile) {
       return res.status(404).json({ error: "Profile not found" });

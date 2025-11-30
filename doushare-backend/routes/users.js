@@ -1,81 +1,91 @@
 const express = require("express");
 const router = express.Router();
-const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const User = require("../models/User");
-require("dotenv").config();
+const admin = require("../firebaseAdmin");
 
-// Register a new user
-router.post("/register", async (req, res) => {
+router.post("/firebase-register", async (req, res) => {
   try {
-    const { email, password, fullName } = req.body;
-    // Check if the email is already registered
-    const existing = await User.findOne({ email });
-    if (existing) {
-      return res.status(400).json({ error: "Email already exists" });
+    const { firebase_uid, email, fullName, idToken } = req.body;
+
+    // 限制只能 Douglas 邮箱
+    if (!email.endsWith("@student.douglascollege.ca")) {
+      return res.status(400).json({ 
+        error: "Only Douglas College student email addresses are allowed." 
+      });
     }
 
-    // Hash the password
-    const hashed = await bcrypt.hash(password, 10);
+    if (!idToken) return res.status(400).json({ error: "Missing idToken" });
 
-    // Create a new user
-    const user = await User.create({
+    // 验证 Firebase 令牌
+    const decoded = await admin.auth().verifyIdToken(idToken);
+
+    if (decoded.uid !== firebase_uid) {
+      return res.status(401).json({ error: "Invalid token" });
+    }
+
+    // 查找用户
+    let user = await User.findOne({ firebase_uid });
+
+    if (user) {
+      return res.status(200).json({
+        message: "User already exists",
+        user
+      });
+    }
+
+    // 创建用户
+    user = await User.create({
+      firebase_uid,
       email,
-      password: hashed,
       fullName,
+      role: "student"
     });
 
-    return res.status(201).json({
-      message: "User registered",
-      user: {
-        _id: user._id,
-        email: user.email,
-        fullName: user.fullName,
-        role: user.role,
-      },
+    res.status(201).json({
+      message: "User created",
+      user
     });
+
   } catch (err) {
-    return res.status(500).json({ error: err.message });
+    console.error("firebase-register error:", err);
+    res.status(500).json({ error: err.message });
   }
 });
 
-// Login user
-router.post("/login", async (req, res) => {
+router.post("/login-firebase", async (req, res) => {
   try {
-    const { email, password } = req.body;
+    const { idToken } = req.body;
 
-    // Find user by email
-    const user = await User.findOne({ email });
+    if (!idToken) return res.status(400).json({ error: "Missing Firebase token" });
+
+    // 验证 Firebase Token
+    const decoded = await admin.auth().verifyIdToken(idToken);
+    const firebase_uid = decoded.uid;
+
+    // 查找用户
+    let user = await User.findOne({ firebase_uid });
+
     if (!user) {
-      return res.status(400).json({ error: "User not found" });
+      return res.status(404).json({ error: "User not registered in database" });
     }
 
-    // Verify password
-    const valid = await bcrypt.compare(password, user.password);
-    if (!valid) {
-      return res.status(401).json({ error: "Invalid password" });
-    }
-
-    // Generate JWT token
-    const token = jwt.sign(
+    // 生成后端自己的 JWT
+    const jwtToken = jwt.sign(
       { id: user._id, role: user.role },
       process.env.JWT_SECRET,
-      { expiresIn: "7d", algorithm: "HS256" }   // <-- FIX
+      { expiresIn: "7d" }
     );
 
-    // Return user info and token
-    return res.json({
-      message: "Login successful",
-      token,
-      user: {
-        _id: user._id,
-        email: user.email,
-        fullName: user.fullName,
-        role: user.role,
-      },
+    res.json({
+      message: "Login success",
+      token: jwtToken,
+      user
     });
+
   } catch (err) {
-    return res.status(500).json({ error: err.message });
+    console.error("login-firebase error:", err);
+    res.status(500).json({ error: err.message });
   }
 });
 

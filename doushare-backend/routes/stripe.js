@@ -66,11 +66,16 @@ router.post("/create-checkout-session", auth, async (req, res) => {
 // create deposite
 router.post("/save-deposit", auth, async (req, res) => {
   try {
-    const { borrow_id, amount, payment_intent_id } = req.body;
+    const { borrow_id, payment_intent_id } = req.body;
 
+    const borrow = await Borrow.findById(borrow_id).populate("item_id");
+    if (!borrow) {
+      return res.status(404).json({ error: "Borrow not found" });
+    }
+    const depositAmount = borrow.item_id.security_deposit;
     const deposit = await Deposit.create({
       borrow_id,
-      amount,
+      amount: depositAmount,
       payment_intent_id,
       status: "held"
     });
@@ -90,7 +95,7 @@ router.get("/session/:id", auth, async (req, res) => {
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
-});
+}); 
 
 // deposite refund
 router.put("/deposit/:id/refund", auth, async (req, res) => {
